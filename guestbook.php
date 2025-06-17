@@ -9,15 +9,23 @@ $confirmation = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = htmlspecialchars(trim($_POST['name']));
     $message = htmlspecialchars(trim($_POST['message']));
-    $stmt = $pdo->prepare("INSERT INTO messages (user, name, message) VALUES (?, ?, ?)");
-    $stmt->execute([$_SESSION['user'], $name, $message]);
+    $user = $_SESSION['user'];
+
+    $stmt = $conn->prepare("INSERT INTO messages (user, name, message) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $user, $name, $message);
+    $stmt->execute();
+    $stmt->close();
+
     $confirmation = "Your message has been submitted!";
 }
-
 // Fetch user's messages
-$stmt = $pdo->prepare("SELECT * FROM messages WHERE user = ? ORDER BY created_at DESC");
-$stmt->execute([$_SESSION['user']]);
-$messages = $stmt->fetchAll();
+$user = $_SESSION['user'];
+$stmt = $conn->prepare("SELECT * FROM messages WHERE user = ? ORDER BY created_at DESC");
+$stmt->bind_param("s", $user);
+$stmt->execute();
+$result = $stmt->get_result();
+$messages = $result->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">

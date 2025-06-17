@@ -1,14 +1,13 @@
 <?php
-$host = 'localhost';
-$dbname = 'guestbook';
-$user = 'root';
-$pass = ''; // Change this as needed
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "guestbook";
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("DB Connection Failed: " . $e->getMessage());
+$conn = new mysqli($host, $user, $pass, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 session_start();
 ?>
