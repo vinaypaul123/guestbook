@@ -1,0 +1,19 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.card {
+    border-radius: 12px;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+textarea {
+    resize: none;
+}
+
+h3, h5 {
+    font-weight: 600;
+}
